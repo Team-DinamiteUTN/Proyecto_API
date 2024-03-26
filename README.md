@@ -21,3 +21,15 @@ Test with postman with the following routes:
 - http://localhost:3000/users
 - http://localhost:3000/cubes
 
+# Schemas
+## User
+{
+    "name": "myname",
+    "password": "mypassword"
+}
+## Cube
+{
+    "Color": "examplecolor",
+    "Weight": 0
+}
+
