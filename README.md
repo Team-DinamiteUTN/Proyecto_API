@@ -18,14 +18,14 @@ npm run dev
 
 # How to use it.
 Test with postman with the following routes:
-- http://localhost:3000/users
-- http://localhost:3000/cubes
+- http://localhost:3000/player
+- http://localhost:3000/cube
 
 # Schemas
 ## User
 {
-    "name": "myname",
-    "password": "mypassword"
+    "Name": "myname",
+    "Points": "mypassword"
 }
 ## Cube
 {
