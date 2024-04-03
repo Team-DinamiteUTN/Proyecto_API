@@ -2,24 +2,24 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-var Cube = mongoose.model('Cubes');
+var Player = mongoose.model('Players');
 
 // Retrieves all registered articles
 router.get('/', function (req, res) {
-    Cube.find({}, [])
-        .then(cubes => {
+    Player.find({}, [])
+        .then(players => {
             let salida;
-            if (cubes.length === 0) {
+            if (players.length === 0) {
                 salida = {
                     status_code: 200,
                     status_message: 'Ok',
-                    data: {'cubes': 'List is empty'}
+                    data: {'players': 'List is empty'}
                 };
             } else {
                 salida = {
                     status_code: 200,
                     status_message: 'Ok',
-                    data: cubes
+                    data: players
                 };
             }
             res.set('Content-Type', 'application/json').status(200).send(salida);
@@ -33,10 +33,10 @@ router.get('/', function (req, res) {
 
 // Retrieve only one article by id
 router.get('/:id', function (req, res) {
-    Cube.findById(req.params.id, [])
-        .then(cube => {
+    Player.findById(req.params.id, [])
+        .then(player => {
             let salida;
-            if (!cube) {
+            if (!player) {
                 salida = {
                     status_code: 404,
                     status_message: 'Not Found',
@@ -46,7 +46,7 @@ router.get('/:id', function (req, res) {
                 salida = {
                     status_code: 200,
                     status_message: 'Ok',
-                    data: cube
+                    data: player
                 };
             }
             res.set('Content-Type', 'application/json').status(salida.status_code).send(salida);
@@ -60,16 +60,17 @@ router.get('/:id', function (req, res) {
 
 // Insert article without comments
 router.post('/', function(req, res, next) {
-    var newCube = req.body;
-    var cub = new Cube();
+    var newPlayer = req.body;
+    var play = new Player();
 
-    cub.Color = newCube.Color;
-    cub.Weight = newCube.Weight;
-    cub.save().then(()=>{
+    play.Name = newPlayer.Name;
+    play.Points = newPlayer.Points;
+
+    play.save().then(()=>{
         salida = {
             status_code:201,
-            status_message: 'Cube was created',
-            data: cub
+            status_message: 'Player was created',
+            data: play
         };
         res.set('Content-Type', 'application/json').status(201).send(salida);
     }).catch(next);
@@ -77,9 +78,9 @@ router.post('/', function(req, res, next) {
 
 // Update one article by id, without comments
 router.put('/:id', function(req, res) {
-    Cube.updateOne({_id:req.params.id},
-        {$set:{Color:req.body.Color,
-                     Weight:req.body.Weight}})
+    Player.updateOne({_id:req.params.id},
+        {$set:{Name:req.body.Name,
+                     Points:req.body.Points}})
         .then(result => {
             if (result.nModified === 0) {
                 throw new Error('Player not found');
@@ -87,7 +88,7 @@ router.put('/:id', function(req, res) {
             salida = {
                 status_code:200,
                 status_message: 'Ok',
-                data: 'Cube updated'
+                data: 'Player updated'
             };
             res.set('Content-Type', 'application/json').status(200).send(salida);
         })
@@ -104,7 +105,7 @@ router.put('/:id', function(req, res) {
 
 // Delete one article by id
 router.delete('/:id', function(req, res) {
-    Cube.deleteOne({_id:req.params.id})
+    Player.deleteOne({_id:req.params.id})
         .then(result => {
             if (result.nModified === 0) {
                 throw new Error('Player not found');
@@ -112,7 +113,7 @@ router.delete('/:id', function(req, res) {
             salida = {
                 status_code:200,
                 status_message: 'Ok',
-                data: 'Cube deleted'
+                data: 'Player deleted'
             };
             res.set('Content-Type', 'application/json').status(200).send(salida);
         })
